@@ -2,6 +2,7 @@
 
 module vga_out
     (
+        input settime,
         input [3:0] insecMSB, insecLSB, inminMSB, inminLSB, inhourMSB, inhourLSB,
         input wire video_on,
         input wire [9:0] pix_x, pix_y,
@@ -50,21 +51,45 @@ module vga_out
              graph_rgb = 0; // blank
         else
             if (dot_on)
-                graph_rgb = 12'b000000000000;
+                if (~settime)
+                    graph_rgb = 12'b000000000000;
+                else
+                    graph_rgb = 12'b111100000000;
             else if (secMSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (secLSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (minMSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (minLSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (hourMSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (hourLSB_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else if (time_on)
+                if (~settime)
                 graph_rgb = 12'b000000000000;
+            else
+                graph_rgb = 12'b111100000000;
             else
                 graph_rgb = 12'b111111111111; // white background
                 

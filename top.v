@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
+module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
     input clk, reset;
-    input upsec, upmin, uphour;
+    input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
     output [6:0] displayOut;
     output [7:0] anodeOut;
@@ -90,6 +90,7 @@ module top(clk, reset, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, h
     counter u_counter(
         .clk(slowClock),
         .reset(reset),
+        .settime(settime),
         .upsec(upsec),
         .upmin(upmin),
         .uphour(uphour),
@@ -116,6 +117,7 @@ module top(clk, reset, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, h
     
     // instantiate display module
     vga_out u_vga_out(
+        .settime(settime),
         .insecMSB(outsecMSB),
         .insecLSB(outsecLSB), 
         .inminMSB(outminMSB), 
