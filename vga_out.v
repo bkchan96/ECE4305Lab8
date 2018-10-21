@@ -45,52 +45,38 @@ module vga_out
     // rgb multiplexing circuit
     ///////////////////////////////////////////////////////
     
+    localparam BLACK    = 12'b000000000000;
+    localparam WHITE    = 12'b111111111111;
+    localparam RED      = 12'b111100000000;
     
     always @*
         if (~video_on)
              graph_rgb = 0; // blank
         else
+            ///////////////////////////////////////////////
+            // Current Time Enable and Color
+            ///////////////////////////////////////////////
             if (dot_on)
-                if (~settime)
-                    graph_rgb = 12'b000000000000;
-                else
-                    graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (secMSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (secLSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (minMSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (minLSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (hourMSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (hourLSB_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
-            else
-                graph_rgb = 12'b111100000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (time_on)
-                if (~settime)
-                graph_rgb = 12'b000000000000;
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            
+            ///////////////////////////////////////////////
+            // White Background Color
+            ///////////////////////////////////////////////
             else
-                graph_rgb = 12'b111100000000;
-            else
-                graph_rgb = 12'b111111111111; // white background
+                graph_rgb = WHITE;
                 
 endmodule
