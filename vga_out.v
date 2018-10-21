@@ -32,6 +32,9 @@ module vga_out
     digit_display alarm_d_minLSB (.value(alarmminLSB ),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd330), .top_left_y(10'd262), .on(alarm_minLSB_on));
     digit_display alarm_d_hourMSB(.value(alarmhourMSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd270), .top_left_y(10'd262), .on(alarm_hourMSB_on));
     digit_display alarm_d_hourLSB(.value(alarmhourLSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd290), .top_left_y(10'd262), .on(alarm_hourLSB_on));
+    
+    // display "ALARM"
+    alarm_time_text u_alarm_time_text(.pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd164), .top_left_y(10'd262), .on(alarm_time_on));
 
     ///////////////////////////////////////////////////////
     // display dots
@@ -42,7 +45,7 @@ module vga_out
     
     // display dot conditions
     always @*
-        if ((pix_y >= 237 && pix_y <= 238) || (pix_y >= 243 && pix_y <= 244))
+        if ((pix_y >= 237 && pix_y <= 238) || (pix_y >= 243 && pix_y <= 244) || (pix_y >= 267 && pix_y <= 268) || (pix_y >= 273 && pix_y <= 274))
             if((pix_x >= 245 && pix_x <= 246) || (pix_x >= 307 && pix_x <= 308) || (pix_x >= 347 && pix_x <= 348))
                 dot_on = 1'b1;
             else
@@ -97,6 +100,8 @@ module vga_out
             else if (alarm_hourMSB_on)
                 if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (alarm_hourLSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_time_on)
                 if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             
             ///////////////////////////////////////////////
