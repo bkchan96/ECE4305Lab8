@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
-    input clk, reset;
+module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
+    input clk, reset, vga_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
     output [6:0] displayOut;
@@ -87,7 +87,7 @@ module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, an
     ///////////////////////////////////////////////////////
     
     // instantiate current time counter
-    counter u_counter(
+    counter current_time(
         .clk(slowClock),
         .reset(reset),
         .settime(settime),
@@ -102,6 +102,21 @@ module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, an
         .outhourLSB(outhourLSB)
         );
     
+    counter alarm_time(
+        .clk(),
+        .reset(reset),
+        .settime(1'b1),
+        .upsec (alarmupsec),
+        .upmin (alarmupmin),
+        .uphour(alarmuphour),
+        .outsecMSB (alarmsecMSB),
+        .outsecLSB (alarmsecLSB),
+        .outminMSB (alarmminMSB),
+        .outminLSB (alarmminLSB),
+        .outhourMSB(alarmhourMSB),
+        .outhourLSB(alarmhourLSB)
+        );
+    
     ///////////////////////////////////////////////////////
     // VGA display section
     ///////////////////////////////////////////////////////
@@ -113,7 +128,7 @@ module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, an
     wire [11:0] rgb_next;
     
     // instantiate vga sync circuit
-    vga_sync u_vga_sync(.clk(clk), .reset(reset), .hsync(hsync), .vsync(vsync), .video_on(video_on), .p_tick(pixel_tick), .pixel_x(pixel_x), .pixel_y(pixel_y));
+    vga_sync u_vga_sync(.clk(clk), .reset(~vga_reset), .hsync(hsync), .vsync(vsync), .video_on(video_on), .p_tick(pixel_tick), .pixel_x(pixel_x), .pixel_y(pixel_y));
     
     // instantiate display module
     vga_out u_vga_out(
@@ -124,6 +139,12 @@ module top(clk, reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, an
         .inminLSB(outminLSB),
         .inhourMSB(outhourMSB),
         .inhourLSB(outhourLSB),
+        .alarmsecMSB (alarmsecMSB),
+        .alarmsecLSB (alarmsecLSB),
+        .alarmminMSB (alarmminMSB),
+        .alarmminLSB (alarmminLSB),
+        .alarmhourMSB(alarmhourMSB),
+        .alarmhourLSB(alarmhourLSB),
         .video_on(video_on),
         .pix_x(pixel_x),
         .pix_y(pixel_y),

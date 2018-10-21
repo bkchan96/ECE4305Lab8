@@ -4,6 +4,7 @@ module vga_out
     (
         input settime,
         input [3:0] insecMSB, insecLSB, inminMSB, inminLSB, inhourMSB, inhourLSB,
+        input [3:0] alarmsecMSB, alarmsecLSB, alarmminMSB, alarmminLSB, alarmhourMSB, alarmhourLSB,
         input wire video_on,
         input wire [9:0] pix_x, pix_y,
         output reg [11:0] graph_rgb
@@ -23,6 +24,14 @@ module vga_out
     
     // display "TIME"
     current_time_text u_current_time_text(.pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd180), .top_left_y(10'd232), .on(time_on));
+    
+    // display alarm
+    digit_display alarm_d_secMSB (.value(alarmsecMSB ),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd350), .top_left_y(10'd262), .on(alarm_secMSB_on));
+    digit_display alarm_d_secLSB (.value(alarmsecLSB ),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd370), .top_left_y(10'd262), .on(alarm_secLSB_on));
+    digit_display alarm_d_minMSB (.value(alarmminMSB ),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd310), .top_left_y(10'd262), .on(alarm_minMSB_on));
+    digit_display alarm_d_minLSB (.value(alarmminLSB ),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd330), .top_left_y(10'd262), .on(alarm_minLSB_on));
+    digit_display alarm_d_hourMSB(.value(alarmhourMSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd270), .top_left_y(10'd262), .on(alarm_hourMSB_on));
+    digit_display alarm_d_hourLSB(.value(alarmhourLSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd290), .top_left_y(10'd262), .on(alarm_hourLSB_on));
 
     ///////////////////////////////////////////////////////
     // display dots
@@ -71,6 +80,23 @@ module vga_out
             else if (hourLSB_on)
                 if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             else if (time_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            
+            ///////////////////////////////////////////////
+            // Current Time Enable and Color
+            ///////////////////////////////////////////////
+            
+            else if (alarm_secMSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_secLSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_minMSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_minLSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_hourMSB_on)
+                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+            else if (alarm_hourLSB_on)
                 if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             
             ///////////////////////////////////////////////
