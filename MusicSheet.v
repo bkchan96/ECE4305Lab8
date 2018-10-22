@@ -34,7 +34,6 @@ module MusicSheet
             8:      begin note = D5S;   duration = HALF;	done = 0;   end
             9:      begin note = C5S;   duration = QUARTER;	done = 0;   end
             10:     begin note = B4;    duration = QUARTER;	done = 0;   end
-            
             11:     begin note = B5;    duration = QUARTER;	done = 0;   end     //second measure
             12:     begin note = B4;    duration = QUARTER;	done = 0;   end
             13:     begin note = B5;    duration = QUARTER; done = 0;   end
@@ -51,7 +50,6 @@ module MusicSheet
             24:     begin note = E5;    duration = QUARTER; done = 0;   end
             25:     begin note = D5S;   duration = QUARTER; done = 0;   end
             26:     begin note = B4;    duration = QUARTER; done = 0;   end
-            
             27:     begin note = B5;    duration = QUARTER;	done = 0;   end    //third measure
             28:     begin note = B4;    duration = QUARTER; done = 0;   end
             29:     begin note = B5;    duration = QUARTER; done = 0;   end
@@ -63,7 +61,6 @@ module MusicSheet
             35:     begin note = D5S;   duration = HALF;    done = 0;   end
             36:     begin note = C5S;   duration = QUARTER; done = 0;   end
             37:     begin note = B4;    duration = QUARTER; done = 0;   end
-           
             38:     begin note = D5S;   duration = QUARTER; done = 0;   end     //fourth measure
             39:     begin note = C5S;   duration = QUARTER; done = 0;   end
             40:     begin note = B4;    duration = QUARTER; done = 0;   end
@@ -73,9 +70,9 @@ module MusicSheet
             44:     begin note = F5S;   duration = ONE;	    done = 0;   end
             45:     begin note = F5S;   duration = HALF;    done = 0;   end
             46:     begin note = C5S;   duration = ONE;	    done = 0;   end
-            
-            47:     begin note = B4;    duration = QUARTER; done = 1;   end
-            default:begin note = B4; duration = FOUR; 	end
+            47:     begin note = SP;    duration = FOUR;    done = 0;   end
+            48:     begin note = SP;    duration = QUARTER; done = 1;   end
+            default:begin note = SP; duration = FOUR; 	end
         endcase
     end
 endmodule

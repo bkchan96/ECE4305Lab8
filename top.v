@@ -1,9 +1,10 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb, audioOut, aud_sd, alarm_match);
+module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, alarm_on, displayOut, anodeOut, hsync, vsync, rgb, audioOut, aud_sd, alarm_match);
     input clk, reset, vga_reset, alarm_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
+    input alarm_on;
     output [6:0] displayOut;
     output [7:0] anodeOut;
     output hsync, vsync;
@@ -148,7 +149,11 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     // declare registers and wires
     reg alarm_match;
     wire sound_reset;
+    wire audio;
     assign sound_reset = reset || alarm_reset;
+    
+    // alarm_on enable
+    assign audioOut = alarm_on ? audio : 1'b1;
     
     // Alarm time vs current time checking logic
     always @* begin
@@ -169,7 +174,7 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
         .clock(clk),
         .reset(sound_reset),
         .playSound(alarm_match),
-        .audioOut(audioOut),
+        .audioOut(audio),
         .aud_sd(aud_sd));
     
     ///////////////////////////////////////////////////////
