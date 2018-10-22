@@ -57,15 +57,15 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         .state(state));
     
     // incrementation state machine
-//    always @(posedge up_key) begin
-//        alarmupsec = 0; alarmupmin = 0; alarmuphour = 0;
-//        if (state == 0)
-//            alarmupsec = 1;
-//        else if (state == 1)
-//            alarmupmin = 1;
-//        else if (state == 2)
-//            alarmuphour = 1;
-//    end
+    always @(posedge up_key) begin
+        alarmupsec = 0; alarmupmin = 0; alarmuphour = 0;
+        if (state == 0)
+            alarmupsec = 1;
+        else if (state == 1)
+            alarmupmin = 1;
+        else if (state == 2)
+            alarmuphour = 1;
+    end
     
     ///////////////////////////////////////////////////////
     // Seven Segment Display Section
@@ -132,10 +132,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         .outhourLSB(outhourLSB)
         );
     
-    counter alarm_time(
-        .clk(1'b0),
-        .reset(reset),
-        .settime(1'b1),
+    alarm_counter alarm_time(
         .upsec (alarmupsec),
         .upmin (alarmupmin),
         .uphour(alarmuphour),
