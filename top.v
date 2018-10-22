@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
+module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb, alarm_match);
     input clk, reset, vga_reset, alarm_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
@@ -8,6 +8,7 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     output [7:0] anodeOut;
     output hsync, vsync;
     output [11:0] rgb;
+    output reg alarm_match;
     
     ///////////////////////////////////////////////////////
     // Misc Section
@@ -138,6 +139,25 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
         .outhourMSB(alarmhourMSB),
         .outhourLSB(alarmhourLSB)
         );
+    
+    ///////////////////////////////////////////////////////
+    // Alarm Check Section
+    ///////////////////////////////////////////////////////
+    
+    reg alarm_match;
+    
+    always @* begin
+        if (
+        (outsecMSB == alarmsecMSB) &&
+        (outsecLSB == alarmsecLSB) &&
+        (outminMSB == alarmminMSB) &&
+        (outminLSB == alarmminLSB) &&
+        (outhourMSB == alarmhourMSB) &&
+        (outhourLSB == alarmhourLSB))
+            alarm_match <= 1;
+        else
+            alarm_match <= 0;
+    end
     
     ///////////////////////////////////////////////////////
     // VGA display section
