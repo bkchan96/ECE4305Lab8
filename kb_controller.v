@@ -46,7 +46,7 @@ module kb_controller
                 end
             state2:
                 begin
-                    key = 1;
+                    //key = 1;
                     if (scan_done_tick && scan_code == scan_code_read)
                         next_state = idle;
                     else
