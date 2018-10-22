@@ -2,7 +2,7 @@
 
 module vga_out
     (
-        input [1:0] selection,
+        input [1:0] state,
         input settime,
         input [3:0] insecMSB, insecLSB, inminMSB, inminLSB, inhourMSB, inhourLSB,
         input [3:0] alarmsecMSB, alarmsecLSB, alarmminMSB, alarmminLSB, alarmhourMSB, alarmhourLSB,
@@ -94,15 +94,15 @@ module vga_out
             else if (alarm_secMSB_on)
                 graph_rgb = BLACK;
             else if (alarm_secLSB_on)
-                if (selection == 1) graph_rgb = BLUE; else graph_rgb = BLACK;
+                if (state == 0) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_minMSB_on)
                 graph_rgb = BLACK;
             else if (alarm_minLSB_on)
-                if (selection == 2) graph_rgb = BLUE; else graph_rgb = BLACK;
+                if (state == 1) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_hourMSB_on)
                 graph_rgb = BLACK;
             else if (alarm_hourLSB_on)
-                if (selection == 3) graph_rgb = BLUE; else graph_rgb = BLACK;
+                if (state == 2) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_time_on)
                 graph_rgb = BLACK;
             

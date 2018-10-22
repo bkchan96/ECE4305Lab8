@@ -48,7 +48,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
    
     // declare wires
     wire alarmupsec, alarmupmin, alarmuphour;
-    wire [1:0] selection;
+    wire [1:0] state;
     
     // instantiate state machine
     alarm_state_machine u_alarm_state_machine(
@@ -60,7 +60,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         .upsec(alarmupsec),
         .upmin(alarmupmin),
         .uphour(alarmuphour),
-        .selection(selection));
+        .state(state));
     
     ///////////////////////////////////////////////////////
     // Seven Segment Display Section
@@ -157,7 +157,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     
     // instantiate display module
     vga_out u_vga_out(
-        .selection(selection),
+        .state(state),
         .settime(settime),
         .insecMSB(outsecMSB),
         .insecLSB(outsecLSB), 
