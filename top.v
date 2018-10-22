@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb, alarm_match);
+module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb, audioOut, aud_sd, alarm_match);
     input clk, reset, vga_reset, alarm_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
@@ -8,6 +8,7 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     output [7:0] anodeOut;
     output hsync, vsync;
     output [11:0] rgb;
+    output audioOut, aud_sd;
     output reg alarm_match;
     
     ///////////////////////////////////////////////////////
@@ -141,11 +142,15 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
         );
     
     ///////////////////////////////////////////////////////
-    // Alarm Check Section
+    // Alarm Section
     ///////////////////////////////////////////////////////
     
+    // declare registers and wires
     reg alarm_match;
+    wire sound_reset;
+    assign sound_reset = reset || alarm_reset;
     
+    // Alarm time vs current time checking logic
     always @* begin
         if (
         (outsecMSB == alarmsecMSB) &&
@@ -158,6 +163,14 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
         else
             alarm_match <= 0;
     end
+    
+    // instantiate song player
+    SongPlayer u_song_player(
+        .clock(clk),
+        .reset(sound_reset),
+        .playSound(alarm_match),
+        .audioOut(audioOut),
+        .aud_sd(aud_sd));
     
     ///////////////////////////////////////////////////////
     // VGA display section
