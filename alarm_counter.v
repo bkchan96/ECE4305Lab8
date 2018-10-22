@@ -6,9 +6,9 @@ module alarm_counter(upsec, upmin, uphour, outsecMSB, outsecLSB, outminMSB, outm
 
     baseTenIncrementer secLSB(.inc(upsec), .reset(reset), .incNext(incSecMSB), .value(outsecLSB));
     baseSixIncrementer secMSB(.inc(incSecMSB), .reset(reset), .incNext(incMinLSB), .value(outsecMSB));
-    baseTenIncrementer minLSB(.inc(upMin), .reset(reset), .incNext(incMinMSB), .value(outminLSB));
+    baseTenIncrementer minLSB(.inc(upmin), .reset(reset), .incNext(incMinMSB), .value(outminLSB));
     baseSixIncrementer minMSB(.inc(incMinMSB), .reset(reset), .incNext(incHourLSB), .value(outminMSB));
-    baseFourIncrementer hourLSB(.inc(upHour), .reset(reset), .incNext(incHourMSB), .hourMSBvalue(outhourMSB), .value(outhourLSB));
+    baseFourIncrementer hourLSB(.inc(uphour), .reset(reset), .incNext(incHourMSB), .hourMSBvalue(outhourMSB), .value(outhourLSB));
     baseThreeIncrementer hourMSB(.inc(incHourMSB), .reset(reset), .incNext(), .value(outhourMSB));
     
 endmodule

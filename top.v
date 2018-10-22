@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb);
+module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, displayOut, anodeOut, hsync, vsync, rgb, alarmupsec, alarmupmin, alarmuphour);
     input clk, reset, vga_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
@@ -8,6 +8,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     output [7:0] anodeOut;
     output hsync, vsync;
     output [11:0] rgb;
+    output alarmupsec, alarmupmin, alarmuphour;
     
     ///////////////////////////////////////////////////////
     // Misc Section
@@ -48,7 +49,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
    
     // declare wires and registers
     wire [1:0] state;
-    reg alarmupsec, alarmupmin, alarmuphour;
+    wire alarmupsec, alarmupmin, alarmuphour;
     
     // instantiate state machine
     alarm_state_machine u_alarm_state_machine(
@@ -56,17 +57,11 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         .right_key(right_key),
         .state(state));
     
-    // incrementation state machine
-    always @(posedge up_key) begin
-        alarmupsec = 0; alarmupmin = 0; alarmuphour = 0;
-        if (state == 0)
-            alarmupsec = 1;
-        else if (state == 1)
-            alarmupmin = 1;
-        else if (state == 2)
-            alarmuphour = 1;
-    end
-    
+    // incrementation
+    assign alarmupsec  = state == 0 ? up_key : 1'b0;
+    assign alarmupmin  = state == 1 ? up_key : 1'b0;
+    assign alarmuphour = state == 2 ? up_key : 1'b0;
+
     ///////////////////////////////////////////////////////
     // Seven Segment Display Section
     ///////////////////////////////////////////////////////
