@@ -46,21 +46,26 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     // Alarm State Machine Section
     ///////////////////////////////////////////////////////
    
-    // declare wires
-    wire alarmupsec, alarmupmin, alarmuphour;
+    // declare wires and registers
     wire [1:0] state;
+    reg alarmupsec, alarmupmin, alarmuphour;
     
     // instantiate state machine
     alarm_state_machine u_alarm_state_machine(
-        .clk(clk),
-        .reset(reset),
         .left_key(left_key),
         .right_key(right_key),
-        .up_key(up_key),
-        .upsec(alarmupsec),
-        .upmin(alarmupmin),
-        .uphour(alarmuphour),
         .state(state));
+    
+    // incrementation state machine
+//    always @(posedge up_key) begin
+//        alarmupsec = 0; alarmupmin = 0; alarmuphour = 0;
+//        if (state == 0)
+//            alarmupsec = 1;
+//        else if (state == 1)
+//            alarmupmin = 1;
+//        else if (state == 2)
+//            alarmuphour = 1;
+//    end
     
     ///////////////////////////////////////////////////////
     // Seven Segment Display Section
