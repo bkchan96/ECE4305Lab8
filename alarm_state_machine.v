@@ -11,18 +11,21 @@ module alarm_state_machine(clk, reset, left_key, right_key, up_key, upsec, upmin
     
     
     always @(posedge trigger) begin
-        if (left_key) begin
-            if (state == 0)
-                state <= 1;
-            if (state == 1)
-                state <= 2;
+        if (left_key && state != 2) begin
+            state = state + 1;
         end
-        if (right_key) begin
-            if (state == 1)
-                state <= 0;
-            if (state == 2)
-                state <= 1;
+        if (right_key && state != 0) begin
+            state = state - 1;
         end
     end
+    
+//    always @(posedge up_key) begin
+//        upsec = 0; upmin = 0; uphour = 0;
+//        case (state)
+//            0: upsec = 1;
+//            1: upmin = 1;
+//            2: uphour = 1;
+//        endcase
+//    end
     
 endmodule
