@@ -18,7 +18,7 @@ module digit_display
     // declare signals to check
     wire [3:0] rom_addr, rom_col;
     wire rom_bit;
-    wire on, sq_on;
+    wire sq_on;
     reg [0:15] rom_data;
     
     // check current position of pixel

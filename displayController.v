@@ -60,7 +60,7 @@ module displayController(clk, in0, in1, in2, in3, in4, in5, out, outan);
                 outan = 6'b011111;
                 out = in5;
             end
-            4'b????: begin
+            default: begin
                 outan = 4'b1111;
                 out = 7'b1111111;
             end

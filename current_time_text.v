@@ -19,7 +19,7 @@ module current_time_text
     wire [3:0] rom_addr;
     wire [5:0] rom_col;
     wire rom_bit;
-    wire on, sq_on;
+    wire sq_on;
     reg [0:63] rom_data;
     
     // check current position of pixel
