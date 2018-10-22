@@ -128,6 +128,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         );
     
     alarm_counter alarm_time(
+        .reset(reset),
         .upsec (alarmupsec),
         .upmin (alarmupmin),
         .uphour(alarmuphour),

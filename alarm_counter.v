@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
-module alarm_counter(upsec, upmin, uphour, outsecMSB, outsecLSB, outminMSB, outminLSB, outhourMSB, outhourLSB);
+module alarm_counter(reset, upsec, upmin, uphour, outsecMSB, outsecLSB, outminMSB, outminLSB, outhourMSB, outhourLSB);
+    input reset;
     input upsec, upmin, uphour;
     output wire [3:0] outsecMSB, outsecLSB, outminMSB, outminLSB, outhourMSB, outhourLSB;
 

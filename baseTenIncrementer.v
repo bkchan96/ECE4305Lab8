@@ -9,7 +9,7 @@ module baseTenIncrementer(inc, reset, incNext, value);
         incNext = 0;
         if (reset)
             value = 0;
-        else if (inc) begin
+        else begin
             if (value == 9) begin
                 value = 0;
                 incNext = 1;
@@ -30,7 +30,7 @@ module baseSixIncrementer(inc, reset, incNext, value);
         incNext = 0;
         if (reset)
             value = 0;
-        else if (inc) begin
+        else begin
             if (value == 5) begin
                 value = 0;
                 incNext = 1;
@@ -51,7 +51,7 @@ module baseThreeIncrementer(inc, reset, incNext, value);
         incNext = 0;
         if (reset)
             value = 0;
-        else if (inc) begin
+        else begin
             if (value == 2) begin
                 value = 0;
                 incNext = 1;
@@ -73,7 +73,7 @@ module baseFourIncrementer(inc, reset, incNext, hourMSBvalue, value);
         incNext = 0;
         if (reset)
             value = 0;
-        else if (inc) begin
+        else begin
             if ((value == 3 && hourMSBvalue == 2) || value == 9) begin
                 value = 0;
                 incNext = 1;
