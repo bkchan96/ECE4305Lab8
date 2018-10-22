@@ -10,10 +10,10 @@ module alarm_state_machine(left_key, right_key, state);
     
     always @(posedge trigger) begin
         if (left_key && state != 2) begin
-            state = state + 1;
+            state <= state + 1;
         end
-        if (right_key && state != 0) begin
-            state = state - 1;
+        else if (right_key && state != 0) begin
+            state <= state - 1;
         end
     end
     
