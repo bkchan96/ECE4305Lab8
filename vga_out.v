@@ -2,6 +2,7 @@
 
 module vga_out
     (
+        input [1:0] selection,
         input settime,
         input [3:0] insecMSB, insecLSB, inminMSB, inminLSB, inhourMSB, inhourLSB,
         input [3:0] alarmsecMSB, alarmsecLSB, alarmminMSB, alarmminLSB, alarmhourMSB, alarmhourLSB,
@@ -52,7 +53,7 @@ module vga_out
                 dot_on = 1'b0;
         else
             dot_on = 1'b0;
-            
+    
     ///////////////////////////////////////////////////////
     // rgb multiplexing circuit
     ///////////////////////////////////////////////////////
@@ -60,6 +61,7 @@ module vga_out
     localparam BLACK    = 12'b000000000000;
     localparam WHITE    = 12'b111111111111;
     localparam RED      = 12'b111100000000;
+    localparam BLUE     = 12'b000000001111;
     
     always @*
         if (~video_on)
@@ -90,19 +92,19 @@ module vga_out
             ///////////////////////////////////////////////
             
             else if (alarm_secMSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                graph_rgb = BLACK;
             else if (alarm_secLSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                if (selection == 1) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_minMSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                graph_rgb = BLACK;
             else if (alarm_minLSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                if (selection == 2) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_hourMSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                graph_rgb = BLACK;
             else if (alarm_hourLSB_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                if (selection == 3) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_time_on)
-                if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
+                graph_rgb = BLACK;
             
             ///////////////////////////////////////////////
             // White Background Color

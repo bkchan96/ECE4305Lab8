@@ -32,13 +32,35 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     // keyboard connections (redundant)
     wire rx_done_tick;
     wire [7:0] scan_code;
+    wire left_key, right_key, up_key;
     
     // instantiate keyboard inputs
     ps2_rx key_in(.clk(clk), .reset(reset), .ps2d(ps2d), .ps2c(ps2c), .rx_en(1'b1), .rx_done_tick(rx_done_tick), .dout(scan_code));
+    
+    // instantiate keyboard key control modules
     kb_controller kb_left(.clk(clk), .reset(reset), .scan_code_read(8'h1C), .scan_done_tick(rx_done_tick),.scan_code(scan_code), .key(left_key));
     kb_controller kb_right(.clk(clk), .reset(reset), .scan_code_read(8'h23), .scan_done_tick(rx_done_tick),.scan_code(scan_code), .key(right_key));
     kb_controller kb_up(.clk(clk), .reset(reset), .scan_code_read(8'h1D), .scan_done_tick(rx_done_tick),.scan_code(scan_code), .key(up_key));
-    kb_controller kb_down(.clk(clk), .reset(reset), .scan_code_read(8'h1B), .scan_done_tick(rx_done_tick),.scan_code(scan_code), .key(down_key));
+    
+    ///////////////////////////////////////////////////////
+    // Alarm State Machine Section
+    ///////////////////////////////////////////////////////
+   
+    // declare wires
+    wire alarmupsec, alarmupmin, alarmuphour;
+    wire [1:0] selection;
+    
+    // instantiate state machine
+    alarm_state_machine u_alarm_state_machine(
+        .clk(clk),
+        .reset(reset),
+        .left_key(left_key),
+        .right_key(right_key),
+        .up_key(up_key),
+        .upsec(alarmupsec),
+        .upmin(alarmupmin),
+        .uphour(alarmuphour),
+        .selection(selection));
     
     ///////////////////////////////////////////////////////
     // Seven Segment Display Section
@@ -86,6 +108,9 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     // Time-keeping Section
     ///////////////////////////////////////////////////////
     
+    //instantiate wires
+    wire [3:0] alarmsecMSB, alarmsecLSB, alarmminMSB, alarmminLSB, alarmhourMSB, alarmhourLSB;
+    
     // instantiate current time counter
     counter current_time(
         .clk(slowClock),
@@ -103,7 +128,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
         );
     
     counter alarm_time(
-        .clk(),
+        .clk(1'b0),
         .reset(reset),
         .settime(1'b1),
         .upsec (alarmupsec),
@@ -132,6 +157,7 @@ module top(clk, reset, vga_reset, settime, upsec, upmin, uphour, ps2d, ps2c, dis
     
     // instantiate display module
     vga_out u_vga_out(
+        .selection(selection),
         .settime(settime),
         .insecMSB(outsecMSB),
         .insecLSB(outsecLSB), 

@@ -33,7 +33,7 @@ module displayController(clk, in0, in1, in2, in3, in4, in5, out, outan);
         end
     end
     
-    always@ (anode)
+    always @*
     begin
         case (anode)
             0: begin
