@@ -2,6 +2,7 @@
 
 module vga_out
     (
+        input on,
         input [1:0] state,
         input settime,
         input [3:0] insecMSB, insecLSB, inminMSB, inminLSB, inhourMSB, inhourLSB,
@@ -36,7 +37,10 @@ module vga_out
     
     // display "ALARM"
     alarm_time_text u_alarm_time_text(.pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd164), .top_left_y(10'd262), .on(alarm_time_on));
-
+    
+    // display "ON" or "OFF"
+    alarm_on_text u_alarm_on_text(.en(on), .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd390), .top_left_y(10'd262), .on(alarm_on_on));
+    
     ///////////////////////////////////////////////////////
     // display dots
     ///////////////////////////////////////////////////////
@@ -62,6 +66,7 @@ module vga_out
     localparam WHITE    = 12'b111111111111;
     localparam RED      = 12'b111100000000;
     localparam BLUE     = 12'b000000001111;
+    localparam GREEN    = 12'b000011110000;
     
     always @*
         if (~video_on)
@@ -88,7 +93,7 @@ module vga_out
                 if (~settime) graph_rgb = BLACK; else graph_rgb = RED;
             
             ///////////////////////////////////////////////
-            // Current Time Enable and Color
+            // Alarm Time Enable and Color
             ///////////////////////////////////////////////
             
             else if (alarm_secMSB_on)
@@ -105,6 +110,8 @@ module vga_out
                 if (state == 2) graph_rgb = BLUE; else graph_rgb = BLACK;
             else if (alarm_time_on)
                 graph_rgb = BLACK;
+            else if (alarm_on_on)
+                if (on == 1)    graph_rgb = GREEN;else graph_rgb = BLACK;
             
             ///////////////////////////////////////////////
             // White Background Color

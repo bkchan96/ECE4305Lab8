@@ -13,12 +13,6 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     output reg alarm_match;
     
     ///////////////////////////////////////////////////////
-    // Misc Section
-    ///////////////////////////////////////////////////////
-    
-    
-
-    ///////////////////////////////////////////////////////
     // Supplemental Section
     ///////////////////////////////////////////////////////
     
@@ -192,6 +186,7 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     
     // instantiate display module
     vga_out u_vga_out(
+        .on(alarm_on),
         .state(state),
         .settime(settime),
         .insecMSB(outsecMSB),
