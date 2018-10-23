@@ -16,6 +16,9 @@ module vga_out
     // instantiate text display modules
     ///////////////////////////////////////////////////////
     
+    wire secMSB_on, secLSB_on, minMSB_on, minLSB_on, hourMSB_on, hourLSB_on, time_on, alarm_secMSB_on, alarm_secLSB_on,
+    alarm_minMSB_on ,alarm_minLSB_on, alarm_hourMSB_on, alarm_hourLSB_on, alarm_time_on, alarm_on_on;
+    
     // display each digit of current time
     digit_display d_secMSB (.value(insecMSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd350), .top_left_y(10'd232), .on(secMSB_on));
     digit_display d_secLSB (.value(insecLSB),  .pixel_x(pix_x), .pixel_y(pix_y), .top_left_x(10'd370), .top_left_y(10'd232), .on(secLSB_on));

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, alarm_on, displayOut, anodeOut, hsync, vsync, rgb, audioOut, aud_sd, alarm_match);
+module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps2d, ps2c, alarm_on, displayOut, anodeOut, hsync, vsync, rgb, audioOut, aud_sd);
     input clk, reset, vga_reset, alarm_reset;
     input settime, upsec, upmin, uphour;
     input ps2d, ps2c;
@@ -10,7 +10,6 @@ module top(clk, reset, vga_reset, alarm_reset, settime, upsec, upmin, uphour, ps
     output hsync, vsync;
     output [11:0] rgb;
     output audioOut, aud_sd;
-    output reg alarm_match;
     
     ///////////////////////////////////////////////////////
     // Supplemental Section
